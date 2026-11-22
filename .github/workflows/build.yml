@@ -1,0 +1,59 @@
+name: Build Free Plugin
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+
+      - name: Build and verify Free JAR
+        run: mvn -B clean verify --file pom.xml
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: OntaDev_Quests_Free.jar
+          path: target/OntaDev_Quests_Free.jar
+          if-no-files-found: error
+
+      - name: Extract Maven metadata
+        id: maven-metadata
+        run: |
+          version=$(mvn -q -DforceStdout -Dexpression=project.version help:evaluate)
+          project_name=$(mvn -q -DforceStdout -Dexpression=project.name help:evaluate)
+          echo "version=${version}" >> $GITHUB_OUTPUT
+          echo "name=${project_name}" >> $GITHUB_OUTPUT
+
+
+      - name: Create or Update Release
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/free'
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.maven-metadata.outputs.version }}
+          name: ${{ steps.maven-metadata.outputs.name }} ${{ steps.maven-metadata.outputs.version }}
+          artifacts: target/OntaDev_Quests_Free.jar
+          allowUpdates: true
+          token: ${{ secrets.GITHUB_TOKEN }}

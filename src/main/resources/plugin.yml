@@ -1,0 +1,63 @@
+name: OntaDev_Quests
+version: '${project.version}'
+description: "Бесплатная версия: ручная настройка квестов и наград командами"
+main: com.ontadev.quests.OntaDevQuestsPlugin
+api-version: '1.16'
+load: POSTWORLD
+authors: [ OntaDev ]
+depend: [ OntaDev_Libs ]
+
+commands: {}
+
+permissions:
+  quests.open:
+    description: Открывать меню квестов
+    default: true
+  quests.open.*:
+    description: Открывать любую страницу квестов, не дожидаясь прогресса (quests.open.<страница> - конкретную)
+    default: op
+  quests.open.others:
+    description: Открывать страницу квестов другому игроку (для NPC и консоли)
+    default: op
+  quests.skip:
+    description: Пропускать текущий квест (по умолчанию у игроков 3 пропуска, но использовать их можно только с этим правом, например VIP)
+    default: op
+  quests.quest.create:
+    description: Создавать квесты
+    default: op
+  quests.quest.id:
+    description: Видеть номер квеста в описании в меню
+    default: op
+  quests.quest.icon:
+    description: Менять иконки квестов командой
+    default: op
+  quests.quest.delete:
+    description: Удалять квесты
+    default: op
+  quests.page:
+    description: Смотреть страницы квестов и недостающие номера
+    default: op
+  quests.reward.give:
+    description: Выдавать предметы награды игроку для проверки
+    default: op
+  quests.reward:
+    description: Создавать и удалять награды
+    default: op
+  quests.commands.add:
+    description: Добавлять команды к награде
+    default: op
+  quests.commands.list:
+    description: Смотреть команды награды
+    default: op
+  quests.commands.clear:
+    description: Удалять все команды награды
+    default: op
+  quests.user.edit:
+    description: Менять данные игроков (пропуски, квест, прогресс, награды)
+    default: op
+  quests.reset:
+    description: Массовый сброс прогресса, пропусков и удаление всех квестов с подтверждением
+    default: op
+  quests.reload:
+    description: Перезагружать конфиги, переводы и оформление меню
+    default: op
