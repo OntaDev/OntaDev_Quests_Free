@@ -49,7 +49,7 @@ jobs:
 
 
       - name: Create or Update Release
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/free'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.maven-metadata.outputs.version }}
